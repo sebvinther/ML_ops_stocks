@@ -1,11 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[7]:
-
-
+# %%
 #Importing necessary librabries
-from dotenv import load_dotenv
+from dotenv import load_dotenv 
 import os 
 from alpha_vantage.timeseries import TimeSeries
 import pandas as pd
@@ -21,10 +16,7 @@ import numpy as np
 from datetime import timedelta
 load_dotenv()   #Making the .env file work
 
-
-# In[9]:
-
-
+# %%
 #Setting up API key to being able to fetch stocks from Alpha Vantage
 
 api_key = os.environ.get('STOCK_API') 
@@ -46,10 +38,7 @@ symbol = 'AMD'
 stock_data = fetch_stock_prices(symbol)
 print(stock_data.head())
 
-
-# In[10]:
-
-
+# %%
 # Defining the file path and name
 file_path = 'AMD_stock_prices.csv'  
 
@@ -57,4 +46,5 @@ file_path = 'AMD_stock_prices.csv'
 stock_data.to_csv(file_path)
 
 print(f"Data saved to {file_path}")
+
 

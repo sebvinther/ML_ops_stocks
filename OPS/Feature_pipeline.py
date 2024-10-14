@@ -1,9 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[26]:
-
-
+# %%
 # Import necessary libraries
 import pandas as pd               
 import numpy as np                
@@ -26,55 +21,57 @@ api_key = os.environ.get('HOPSWORKS_API')
 project = hopsworks.login(api_key_value=api_key)
 fs = project.get_feature_store()
 
-
-# In[27]:
-
-
+# %%
 # Load and display the data from CSV to get an overview of the actual data - confirming the values
 amd_df = pd.read_csv('AMD_stock_prices.csv')
 print(amd_df.head())    
 
-
-# In[28]:
-
-
+# %%
 amd_df
 
-
-# In[29]:
-
-
+# %%
 # Converting the "date" column to timestamp
 amd_df['date'] = pd.to_datetime(amd_df['date'])
 
+# %%
+import re
 
-# In[30]:
+# Function to clean column names
+def clean_column_name(col):
+    # Convert to lowercase
+    col = col.lower()
+    # Replace any invalid characters with an underscore
+    col = re.sub(r'[^a-z0-9_]', '_', col)
+    # If the column name doesn't start with a letter, prefix it with 'f_'
+    if not re.match(r'^[a-z]', col):
+        col = 'f_' + col
+    return col
+
+# Apply the function to all column names
+amd_df.columns = [clean_column_name(col) for col in amd_df.columns]
+
+print("Cleaned column names:")
+print(amd_df.columns.tolist())
 
 
-# Defining the stocks feature group
-amd_fg = fs.get_or_create_feature_group(
-    name="amd_stock",
-    description="amd stock dataset from alpha vantage",
-    version=8,
-    primary_key=["ticker"],
-    event_time=['date'],
-    online_enabled=False,
-)
-
-
-# In[25]:
-
-
-# version 2 for the new feature group
+# %%
+# version 7 for the new feature group
 amd_fg = fs.create_feature_group(
     name="amd_stock",
     description="AMD stock dataset from Alpha Vantage",
-    version=2,  # Incremented version number
+    version=8,  # Use the new version number
     primary_key=["ticker"],
     event_time="date",
     online_enabled=False,
 )
 
 # Insert data into the new feature group
-amd_fg.insert(amd_df, write_options={"wait_for_job": False})
+#amd_fg.insert(amd_df, write_options={"wait_for_job": False})
+try:
+    amd_fg.insert(amd_df, write_options={"wait_for_job": False})
+    print("\nData inserted successfully into the feature group.")
+except Exception as e:
+    print(f"\nError inserting data into feature group: {e}")
+
+
 

@@ -1,9 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[2]:
-
-
+# %%
 #Importing necessary libraries
 from dotenv import load_dotenv
 import os 
@@ -21,10 +16,7 @@ import numpy as np
 from datetime import datetime, timedelta
 load_dotenv()
 
-
-# In[3]:
-
-
+# %%
 #Connecting to Alpha vantage using API key
 api_key = os.environ.get('STOCK_API')
 ts = TimeSeries(key=api_key, output_format='pandas')
@@ -34,24 +26,15 @@ data, meta_data = ts.get_daily(symbol='AMD', outputsize='full')
 
 print(data.head())
 
-
-# In[4]:
-
-
+# %%
 #taking a look into what the data contains of the AMD stock
 data.info()
 
-
-# In[6]:
-
-
+# %%
 #Here we see the american stock markets opening times, if it runs on a monday before 15:xx, ideally we want it to run once the market closes friday and then again before makret opening a tuesday etc
 meta_data
 
-
-# In[7]:
-
-
+# %%
 #Stock market:
 def today_is_a_business_day(today):
     # Get the NYSE calendar
@@ -64,10 +47,7 @@ def today_is_a_business_day(today):
         print('Today {} is not a business day'.format(today))
         return False
 
-
-# In[8]:
-
-
+# %%
 #Defining a function to find the next business day
 def next_business_day(today):
     
@@ -89,10 +69,7 @@ def next_business_day(today):
             
     return isBusinessDay.to_numpy()[0]
 
-
-# In[18]:
-
-
+# %%
 #Defining a function to extract business day
 def extract_business_day(start_date,end_date):
     """
@@ -153,65 +130,39 @@ def extract_business_day(start_date,end_date):
         
     return isBusinessDay, is_open
 
-
-# In[19]:
-
-
+# %%
 #Defining a function to clean the column names
 def clean_column_name(name):
     # Remove all non-letter characters
     cleaned_name = re.sub(r'[^a-zA-Z]', '', name)
     return cleaned_name
 
-
-# In[20]:
-
-
+# %%
 data.columns = [clean_column_name(col) for col in data.columns]
 
-
-# In[21]:
-
-
+# %%
 data.head()
 
-
-# In[22]:
-
-
+# %%
 data.reset_index(inplace=True)
 
-
-# In[23]:
-
-
+# %%
 # Define the date range we're interested in
 yesterday =datetime.now()-timedelta(days=1)
 two_years_back = yesterday - timedelta(days=729)
 
-
-# In[24]:
-
-
+# %%
 # Filtering the DataFrame to this range
 filtered_df = data[(data['date'] >= two_years_back) & (data['date'] <= yesterday)]
 
-
-# In[26]:
-
-
+# %%
 filtered_df.head(10)
 
-
-# In[27]:
-
-
+# %%
 print(filtered_df['date'].min())
 print(filtered_df['date'].max())
 
-
-# In[28]:
-
-
+# %%
 filtered_df.shape
+
 
