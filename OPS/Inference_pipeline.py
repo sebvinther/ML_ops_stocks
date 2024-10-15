@@ -28,8 +28,8 @@ end_date = datetime.now() - timedelta(hours=24)
 print(end_date.strftime("%Y-%m-%d"))
 
 # %%
-feature_view = fs.get_feature_view('amd_stock_fv', 1)
-feature_view.init_batch_scoring(training_dataset_version=1)
+feature_view = fs.get_feature_view('amd_stock_fv', 2)
+feature_view.init_batch_scoring(training_dataset_version=2)
 
 # %%
 df = feature_view.get_batch_data(start_time=start_date, end_time=end_date)
@@ -40,7 +40,7 @@ df.head()
 # %%
 import joblib
 
-the_model = mr.get_model("ProphetModel", version=4)
+the_model = mr.get_model("ProphetModel", version=5)
 model_dir = the_model.download()
 
 model = joblib.load(model_dir + "/Prophet_model.pkl")
@@ -81,7 +81,7 @@ fs = project.get_feature_store()
 # %%
 results_fg = fs.get_or_create_feature_group(
     name= 'stock_prediction_results',
-    version = 1,
+    version = 2,
     description = 'Predction of AMD close stock price',
     primary_key = ['f_1__open'],
     event_time = ['ds'],
