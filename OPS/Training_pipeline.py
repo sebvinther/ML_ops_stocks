@@ -20,12 +20,12 @@ from prophet import Prophet
 load_dotenv()
 
 #Connecting to hopsworks
-api_key = os.environ.get('hopsworks_api')
+api_key = os.environ.get('HOPSWORKS_API')
 project = hopsworks.login(api_key_value=api_key)
 fs = project.get_feature_store()
 
 #Another connection to hopsworks
-api_key = os.getenv('hopsworks_api')
+api_key = os.getenv('HOPSWORKS_API')
 connection = hsfs.connection()
 fs = connection.get_feature_store()
 
@@ -33,7 +33,7 @@ fs = connection.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=4
+    version=5
 )
 
 # %%
@@ -148,7 +148,7 @@ from hsml.model_schema import ModelSchema
 joblib.dump(model, 'prophet_model.pkl')
 
 # Get your Hopsworks API key (ensure it's set in your environment variables)
-api_key = os.environ.get('hopsworks_api')
+api_key = os.environ.get('HOPSWORKS_API')
 
 # Log in to Hopsworks
 project = hopsworks.login(api_key_value=api_key)
@@ -209,12 +209,12 @@ test_end = "2024-10-14"
 
 # %%
 #Connecting to hopsworks
-api_key = os.environ.get('hopsworks_api')
+api_key = os.environ.get('HOPSWORKS_API')
 project = hopsworks.login(api_key_value=api_key)
 fs = project.get_feature_store()
 
 #Another connection to hopsworks
-api_key = os.getenv('hopsworks_api')
+api_key = os.getenv('HOPSWORKS_API')
 connection = hsfs.connection()
 fs = connection.get_feature_store()
 
@@ -238,7 +238,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=4
+    version=5
 )
 
 # Setting up train & test split dates

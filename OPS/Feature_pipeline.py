@@ -55,11 +55,11 @@ print(amd_df.columns.tolist())
 
 
 # %%
-# version 8 for the new feature group
+# version 5 for the new feature group
 amd_fg = fs.create_feature_group(
     name="amd_stock",
     description="AMD stock dataset from Alpha Vantage",
-    version=4,  
+    version=5,  
     primary_key=["ticker"],
     event_time="date",
     online_enabled=False,

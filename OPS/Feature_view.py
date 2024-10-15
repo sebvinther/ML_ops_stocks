@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 #Getting connected to hopsworks 
-api_key = os.environ.get('hopsworks_api') 
+api_key = os.environ.get('HOPSWORKS_API') 
 project = hopsworks.login(api_key_value=api_key) 
 fs = project.get_feature_store()
 
@@ -27,7 +27,7 @@ fs = project.get_feature_store()
 def create_stocks_feature_view(fs, version):
 
     # Loading in the feature groups
-    amd_fg = fs.get_feature_group('amd_stock', version=4)
+    amd_fg = fs.get_feature_group('amd_stock', version=5)
     
 
     # Defining the query
@@ -46,9 +46,9 @@ def create_stocks_feature_view(fs, version):
 # %%
 #Creating the feature view
 try:
-    feature_view = fs.get_feature_view("amd_stock_fv", version=4)
-    amd_fg = fs.get_feature_group('amd_stock', version=4)
+    feature_view = fs.get_feature_view("amd_stock_fv", version=5)
+    amd_fg = fs.get_feature_group('amd_stock', version=5)
 except:
-    feature_view, amd_fg = create_stocks_feature_view(fs, 4)
+    feature_view, amd_fg = create_stocks_feature_view(fs, 5)
 
 
