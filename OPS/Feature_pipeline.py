@@ -59,19 +59,14 @@ print(amd_df.columns.tolist())
 amd_fg = fs.create_feature_group(
     name="amd_stock",
     description="AMD stock dataset from Alpha Vantage",
-    version=8,  # Use the new version number
+    version=1,  
     primary_key=["ticker"],
     event_time="date",
     online_enabled=False,
 )
 
-# Insert data into the new feature group
-#amd_fg.insert(amd_df, write_options={"wait_for_job": False})
-try:
-    amd_fg.insert(amd_df, write_options={"wait_for_job": False})
-    print("\nData inserted successfully into the feature group.")
-except Exception as e:
-    print(f"\nError inserting data into feature group: {e}")
 
+# %%
+amd_fg.insert(amd_df, write_options={"wait_for_job": False})
 
 

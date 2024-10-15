@@ -10,7 +10,7 @@ import re
 from hsfs.client.exceptions import RestAPIError
 #Making the notebook able to fetch from the .env file
 from dotenv import load_dotenv
-from Feature_pipeline import amd_fg   #Loading in the amd_fg
+from OPS.Feature_pipeline import amd_fg   #Loading in the amd_fg
 load_dotenv()
 
 #Getting connected to hopsworks 
