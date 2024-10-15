@@ -6,7 +6,6 @@ from alpha_vantage.timeseries import TimeSeries
 import pandas as pd
 import hopsworks
 import re 
-import modal 
 #prepocessing
 import requests
 import json
