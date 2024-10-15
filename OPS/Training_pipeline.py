@@ -33,7 +33,7 @@ fs = connection.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=3
+    version=4
 )
 
 # %%
@@ -147,7 +147,7 @@ from hsml.model_schema import ModelSchema
 # Save the trained Prophet model to a file
 joblib.dump(model, 'prophet_model.pkl')
 
-# Get your Hopsworks API key (ensure it's set in your environment variables)
+#Hopsworks API key
 api_key = os.environ.get('HOPSWORKS_API')
 
 # Log in to Hopsworks
@@ -192,6 +192,12 @@ os.makedirs(model_dir, exist_ok=True)
 
 # Move the model file into the model directory
 shutil.move('prophet_model.pkl', os.path.join(model_dir, 'prophet_model.pkl'))
+
+#Hopsworks API key
+api_key = os.environ.get('HOPSWORKS_API')
+
+# Log in to Hopsworks
+project = hopsworks.login(api_key_value=api_key)
 
 # Save the model artifacts to Hopsworks
 model_registry_entry.save(model_dir)
@@ -238,7 +244,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=3
+    version=4
 )
 
 # Setting up train & test split dates
