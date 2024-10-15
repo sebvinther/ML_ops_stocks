@@ -12,6 +12,14 @@ from hsfs.client.exceptions import RestAPIError
 from dotenv import load_dotenv
 
 load_dotenv()
+
+# %%
+#Getting connected to hopsworks 
+api_key = os.environ.get('hopsworks_api') 
+project = hopsworks.login(api_key_value=api_key) 
+fs = project.get_feature_store()
+
+
 # Check if the feature group already exists before creating it
 def create_stocks_feature_view(fs, version):
     try:
@@ -36,11 +44,7 @@ def create_stocks_feature_view(fs, version):
 
 
 
-# %%
-#Getting connected to hopsworks 
-api_key = os.environ.get('hopsworks_api') 
-project = hopsworks.login(api_key_value=api_key) 
-fs = project.get_feature_store()
+
 
 # %%
 #Defining the function to create feature view
