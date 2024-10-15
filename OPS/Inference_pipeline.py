@@ -40,7 +40,7 @@ df.head()
 # %%
 import joblib
 
-the_model = mr.get_model("ProphetModel", version=5)
+the_model = mr.get_model("ProphetModel", version=6)
 model_dir = the_model.download()
 
 model = joblib.load(model_dir + "/Prophet_model.pkl")
