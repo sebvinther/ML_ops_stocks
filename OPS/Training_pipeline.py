@@ -33,7 +33,7 @@ fs = connection.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=5
+    version=6
 )
 
 # %%
@@ -187,7 +187,7 @@ model_registry_entry = mr.python.create_model(
 )
 
 # Ensure the model directory exists
-model_dir = 'prophet_model_dir'
+model_dir = 'ProphetModel_dir'
 os.makedirs(model_dir, exist_ok=True)
 
 # Move the model file into the model directory
@@ -256,7 +256,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=5
+    version=6
 )
 
 # Setting up train & test split dates

@@ -27,7 +27,7 @@ fs = project.get_feature_store()
 def create_stocks_feature_view(fs, version):
 
     # Loading in the feature groups
-    amd_fg = fs.get_feature_group('amd_stock', version=9)
+    amd_fg = fs.get_feature_group('amd_stock', version=10)
     
 
     # Defining the query
@@ -46,9 +46,9 @@ def create_stocks_feature_view(fs, version):
 # %%
 #Creating the feature view
 try:
-    feature_view = fs.get_feature_view("amd_stock_fv", version=9)
-    amd_fg = fs.get_feature_group('amd_stock', version=9)
+    feature_view = fs.get_feature_view("amd_stock_fv", version=10)
+    amd_fg = fs.get_feature_group('amd_stock', version=10)
 except:
-    feature_view, amd_fg = create_stocks_feature_view(fs, 9)
+    feature_view, amd_fg = create_stocks_feature_view(fs, 10)
 
 
