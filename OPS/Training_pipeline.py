@@ -33,7 +33,7 @@ fs = connection.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=4
+    version=5
 )
 
 # %%
@@ -199,6 +199,18 @@ api_key = os.environ.get('HOPSWORKS_API')
 # Log in to Hopsworks
 project = hopsworks.login(api_key_value=api_key)
 
+# Ensure model_dir is a valid directory
+if not os.path.isdir(model_dir):
+    raise ValueError(f"The directory {model_dir} does not exist.")
+
+# Ensure write permissions
+if not os.access(model_dir, os.W_OK):
+    raise PermissionError(f"Write permission denied for the directory {model_dir}.")
+
+# Ensure model_registry_entry has a save method
+if not hasattr(model_registry_entry, 'save'):
+    raise AttributeError("The model_registry_entry object does not have a 'save' method.")
+
 # Save the model artifacts to Hopsworks
 model_registry_entry.save(model_dir)
 
@@ -244,7 +256,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=4
+    version=5
 )
 
 # Setting up train & test split dates
