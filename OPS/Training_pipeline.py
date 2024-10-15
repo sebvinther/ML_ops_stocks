@@ -33,7 +33,7 @@ fs = connection.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=6
+    version=7
 )
 
 # %%
@@ -187,7 +187,7 @@ model_registry_entry = mr.python.create_model(
 )
 
 # Ensure the model directory exists
-model_dir = 'ProphetModel_dir'
+model_dir = 'prophet_model_dir'
 os.makedirs(model_dir, exist_ok=True)
 
 # Move the model file into the model directory
@@ -212,7 +212,7 @@ if not hasattr(model_registry_entry, 'save'):
     raise AttributeError("The model_registry_entry object does not have a 'save' method.")
 
 # Save the model artifacts to Hopsworks
-model_registry_entry.save(model_dir)
+model_registry_entry.save(model_dir, write_options={"wait_for_job": True})
 
 print(f"Model '{model_name}' saved successfully to the Hopsworks Model Registry.")
 
@@ -256,7 +256,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=6
+    version=7
 )
 
 # Setting up train & test split dates
