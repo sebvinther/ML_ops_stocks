@@ -28,7 +28,7 @@ end_date = datetime.now() - timedelta(hours=24)
 print(end_date.strftime("%Y-%m-%d"))
 
 # %%
-feature_view = fs.get_feature_view('amd_stocks_fv', 8)
+feature_view = fs.get_feature_view('amd_stock_fv', 1)
 feature_view.init_batch_scoring(training_dataset_version=1)
 
 # %%
@@ -40,10 +40,27 @@ df.head()
 # %%
 import joblib
 
-the_model = mr.get_model("ProphetModel", version=2)
+the_model = mr.get_model("ProphetModel", version=4)
 model_dir = the_model.download()
 
 model = joblib.load(model_dir + "/Prophet_model.pkl")
+
+# %%
+# Remove timezone information from 'ds' column
+df['ds'] = pd.to_datetime(df['ds']).dt.tz_localize(None)
+
+
+# %%
+print(df['ds'].dtype)
+
+
+# %%
+# Predict using the model
+predictions = model.predict(df)
+
+# Display predictions
+print(predictions[['ds', 'yhat']].head())
+
 
 # %%
 predictions = model.predict(df)
@@ -52,7 +69,9 @@ predictions = model.predict(df)
 predictions 
 
 # %%
-df['predictions'] = predictions.tolist()
+# Assign the 'yhat' column from 'predictions' to 'df'
+df['predictions'] = predictions['yhat'].values
+
 
 # %%
 api_key = os.environ.get('hopsworks_api')
@@ -64,8 +83,8 @@ results_fg = fs.get_or_create_feature_group(
     name= 'stock_prediction_results',
     version = 1,
     description = 'Predction of AMD close stock price',
-    primary_key = ['ticker'],
-    event_time = ['date'],
+    primary_key = ['f_1__open'],
+    event_time = ['ds'],
     online_enabled = False,
 )
 

@@ -32,8 +32,8 @@ fs = connection.get_feature_store()
 # %%
 #Getting the feature view
 feature_view = fs.get_feature_view(
-    name='amd_stocks_fv',
-    version=8
+    name='amd_stock_fv',
+    version=1
 )
 
 # %%
@@ -197,6 +197,67 @@ shutil.move('prophet_model.pkl', os.path.join(model_dir, 'prophet_model.pkl'))
 model_registry_entry.save(model_dir)
 
 print(f"Model '{model_name}' saved successfully to the Hopsworks Model Registry.")
+
+
+# %%
+#Setting up train & test split dates
+train_start = "2020-03-10"
+train_end = "2023-12-31"
+
+test_start = '2024-01-01'
+test_end = "2024-10-14"
+
+# %%
+#Connecting to hopsworks
+api_key = os.environ.get('hopsworks_api')
+project = hopsworks.login(api_key_value=api_key)
+fs = project.get_feature_store()
+
+#Another connection to hopsworks
+api_key = os.getenv('hopsworks_api')
+connection = hsfs.connection()
+fs = connection.get_feature_store()
+
+# %%
+import hopsworks
+from dotenv import load_dotenv
+import os
+
+# Load environment variables
+load_dotenv()
+
+# Fetch the Hopsworks API key from environment variables
+api_key = os.environ.get('HOPSWORKS_API')
+if not api_key:
+    raise ValueError("HOPSWORKS_API environment variable is not set or is empty.")
+
+# Login to your Hopsworks project
+project = hopsworks.login(api_key_value=api_key)
+fs = project.get_feature_store()
+
+# Retrieve the feature view
+feature_view = fs.get_feature_view(
+    name='amd_stock_fv',
+    version=1
+)
+
+# Setting up train & test split dates
+train_start = "2020-03-10"
+train_end = "2023-12-31"
+
+test_start = "2024-01-01"
+test_end = "2024-10-14"
+
+# Creating the train/test split on the feature view with the split dates
+feature_view.create_train_test_split(
+    train_start=train_start,
+    train_end=train_end,
+    test_start=test_start,
+    test_end=test_end,
+    data_format='csv',
+    coalesce=True,
+    statistics_config={'histogram': True, 'correlations': True}
+)
 
 
 

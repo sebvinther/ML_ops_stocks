@@ -10,7 +10,6 @@ import re
 from hsfs.client.exceptions import RestAPIError
 #Making the notebook able to fetch from the .env file
 from dotenv import load_dotenv
-from OPS.Feature_pipeline import amd_fg   #Loading in the amd_fg
 load_dotenv()
 
 #Getting connected to hopsworks 
@@ -28,25 +27,28 @@ fs = project.get_feature_store()
 def create_stocks_feature_view(fs, version):
 
     # Loading in the feature groups
-    amd_fg = fs.get_feature_group('amd_stock', version=8)
+    amd_fg = fs.get_feature_group('amd_stock', version=2)
     
 
     # Defining the query
-    ds_query = amd_fg.select(['date', 'open', 'close'])
+    ds_query = amd_fg.select(['date', 'f_1__open', 'f_4__close'])
     
 
     # Creating the feature view
     feature_view = fs.create_feature_view(
-        name='amd_stocks_fv',
+        name='amd_stock_fv',
         query=ds_query,
-        labels=['open']
+        labels=['f_4__close']
     )
 
     return feature_view, amd_fg
 
-
-
-
-
+# %%
+#Creating the feature view
+try:
+    feature_view = fs.get_feature_view("amd_stock_fv", version=2)
+    amd_fg = fs.get_feature_group('amd_stock', version=2)
+except:
+    feature_view, amd_fg = create_stocks_feature_view(fs, 2)
 
 
