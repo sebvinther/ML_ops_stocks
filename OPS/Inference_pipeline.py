@@ -28,7 +28,7 @@ end_date = datetime.now() - timedelta(hours=24)
 print(end_date.strftime("%Y-%m-%d"))
 
 # %%
-feature_view = fs.get_feature_view('amd_stock_fv', 18)
+feature_view = fs.get_feature_view('amd_stock_fv', 19)
 feature_view.init_batch_scoring(training_dataset_version=1)
 
 # %%
@@ -85,7 +85,7 @@ fs = project.get_feature_store()
 # %%
 results_fg = fs.get_or_create_feature_group(
     name= 'stock_prediction_results',
-    version = 4,
+    version = 3,
     description = 'Predction of AMD close stock price',
     primary_key = ['y'],
     event_time = ['ds'],
