@@ -36,7 +36,7 @@ fs = project.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=20
+    version=21
 )
 
 print(feature_view)
@@ -144,8 +144,6 @@ else:
     plt.ylabel('Price')
     plt.show()
 
-# Save the trained Prophet model to a file
-joblib.dump(model, 'prophet_model.pkl')
 
 
 # %%
@@ -248,7 +246,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=20
+    version=21
 )
 
 # Setting up train & test split dates
