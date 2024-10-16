@@ -28,7 +28,7 @@ end_date = datetime.now() - timedelta(hours=24)
 print(end_date.strftime("%Y-%m-%d"))
 
 # %%
-feature_view = fs.get_feature_view('amd_stock_fv', 23)
+feature_view = fs.get_feature_view('amd_stock_fv', 24)
 feature_view.init_batch_scoring(training_dataset_version=1)
 
 # %%
