@@ -22,14 +22,21 @@ load_dotenv()
 
 #Another connection to hopsworks
 api_key = os.getenv('HOPSWORKS_API')
-connection = hsfs.connection()
-fs = connection.get_feature_store()
+ 
+if not api_key:
+    raise ValueError("HOPSWORKS_API environment variable is not set.")
+
+ 
+project = hopsworks.login(api_key_value=api_key)
+fs = project.get_feature_store()
+
+
 
 # %%
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=16
+    version=17
 )
 
 # %%
@@ -234,7 +241,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=16
+    version=17
 )
 
 # Setting up train & test split dates
