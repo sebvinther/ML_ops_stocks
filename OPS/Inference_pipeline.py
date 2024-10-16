@@ -14,7 +14,7 @@ import os
 load_dotenv()
 
 # %%
-api_key = os.environ.get('HOPSWORKS_API')
+api_key = os.environ.get('hopsworks_api')
 project = hopsworks.login(api_key_value=api_key)
 fs = project.get_feature_store()
 mr = project.get_model_registry() 
@@ -28,7 +28,7 @@ end_date = datetime.now() - timedelta(hours=24)
 print(end_date.strftime("%Y-%m-%d"))
 
 # %%
-feature_view = fs.get_feature_view('amd_stock_fv', 8)
+feature_view = fs.get_feature_view('amd_stock_fv', 12)
 feature_view.init_batch_scoring(training_dataset_version=1)
 
 # %%
@@ -40,41 +40,45 @@ df.head()
 # %%
 import joblib
 
-the_model = mr.get_model("ProphetModel", version=6)
+the_model = mr.get_model("ProphetModel", version=8)
 model_dir = the_model.download()
 
 model = joblib.load(model_dir + "/Prophet_model.pkl")
 
 # %%
+print("Columns in df:", df.columns.tolist())
+
+# %%
 # Remove timezone information from 'ds' column
-df['ds'] = pd.to_datetime(df['ds']).dt.tz_localize(None)
+df['date'] = pd.to_datetime(df['date']).dt.tz_localize(None)
 
 
 # %%
-print(df['ds'].dtype)
+print(df['date'].dtype)
 
+
+# %%
+df.head()
+
+# %%
+prophet_df = df[['date', 'f_1__open']].rename(columns={'date': 'ds', 'f_1__open': 'y'})
+
+# %%
+prophet_df.head()
 
 # %%
 # Predict using the model
-predictions = model.predict(df)
+predictions = model.predict(prophet_df)
 
 # Display predictions
-print(predictions[['ds', 'yhat']].head())
+print(predictions)
 
-
-# %%
-predictions = model.predict(df)
 
 # %%
 predictions 
 
 # %%
-# Assign the 'yhat' column from 'predictions' to 'df'
-df['predictions'] = predictions['yhat'].values
-
-
-# %%
-api_key = os.environ.get('HOPSWORKS_API')
+api_key = os.environ.get('hopsworks_api')
 project = hopsworks.login(api_key_value=api_key)
 fs = project.get_feature_store()
 
@@ -83,12 +87,12 @@ results_fg = fs.get_or_create_feature_group(
     name= 'stock_prediction_results',
     version = 2,
     description = 'Predction of AMD close stock price',
-    primary_key = ['f_1__open'],
+    primary_key = ['y'],
     event_time = ['ds'],
     online_enabled = False,
 )
 
 # %%
-results_fg.insert(df, write_options={"wait_for_job" : False})
+results_fg.insert(prophet_df, write_options={"wait_for_job" : False})
 
 

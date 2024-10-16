@@ -20,12 +20,12 @@ from prophet import Prophet
 load_dotenv()
 
 #Connecting to hopsworks
-api_key = os.environ.get('HOPSWORKS_API')
+api_key = os.environ.get('hopsworks_api')
 project = hopsworks.login(api_key_value=api_key)
 fs = project.get_feature_store()
 
 #Another connection to hopsworks
-api_key = os.getenv('HOPSWORKS_API')
+api_key = os.getenv('hopsworks_api')
 connection = hsfs.connection()
 fs = connection.get_feature_store()
 
@@ -33,7 +33,7 @@ fs = connection.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=8
+    version=10
 )
 
 # %%
@@ -147,8 +147,8 @@ from hsml.model_schema import ModelSchema
 # Save the trained Prophet model to a file
 joblib.dump(model, 'prophet_model.pkl')
 
-#Hopsworks API key
-api_key = os.environ.get('HOPSWORKS_API')
+# Get your Hopsworks API key (ensure it's set in your environment variables)
+api_key = os.environ.get('hopsworks_api')
 
 # Log in to Hopsworks
 project = hopsworks.login(api_key_value=api_key)
@@ -160,11 +160,11 @@ mr = project.get_model_registry()
 model_name = "ProphetModel"
 description = "Prophet model for time series forecasting AMD stock prices"
 
-# Prepare the input example 
+# Prepare the input example (pandas DataFrame)
 input_example = train_df[['ds']].head(1)
 input_schema = Schema(input_example)
 
-# Prepare the output example
+# Prepare the output example (pandas DataFrame)
 output_example = forecast[['yhat']].head(1)
 output_schema = Schema(output_example)
 
@@ -193,12 +193,6 @@ os.makedirs(model_dir, exist_ok=True)
 # Move the model file into the model directory
 shutil.move('prophet_model.pkl', os.path.join(model_dir, 'prophet_model.pkl'))
 
-#Hopsworks API key
-api_key = os.environ.get('HOPSWORKS_API')
-
-# Log in to Hopsworks
-project = hopsworks.login(api_key_value=api_key)
-
 # Save the model artifacts to Hopsworks
 model_registry_entry.save(model_dir)
 
@@ -215,12 +209,12 @@ test_end = "2024-10-14"
 
 # %%
 #Connecting to hopsworks
-api_key = os.environ.get('HOPSWORKS_API')
+api_key = os.environ.get('hopsworks_api')
 project = hopsworks.login(api_key_value=api_key)
 fs = project.get_feature_store()
 
 #Another connection to hopsworks
-api_key = os.getenv('HOPSWORKS_API')
+api_key = os.getenv('hopsworks_api')
 connection = hsfs.connection()
 fs = connection.get_feature_store()
 
@@ -244,7 +238,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=8
+    version=12
 )
 
 # Setting up train & test split dates
