@@ -19,10 +19,6 @@ from prophet import Prophet
 
 load_dotenv()
 
-#Connecting to hopsworks
-api_key = os.environ.get('HOPSWORKS_API')
-project = hopsworks.login(api_key_value=api_key)
-fs = project.get_feature_store()
 
 #Another connection to hopsworks
 api_key = os.getenv('HOPSWORKS_API')
@@ -33,7 +29,7 @@ fs = connection.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=15
+    version=16
 )
 
 # %%
@@ -238,7 +234,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=15
+    version=16
 )
 
 # Setting up train & test split dates
