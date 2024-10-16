@@ -33,7 +33,7 @@ fs = connection.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=7
+    version=8
 )
 
 # %%
@@ -160,11 +160,11 @@ mr = project.get_model_registry()
 model_name = "ProphetModel"
 description = "Prophet model for time series forecasting AMD stock prices"
 
-# Prepare the input example (pandas DataFrame)
+# Prepare the input example 
 input_example = train_df[['ds']].head(1)
 input_schema = Schema(input_example)
 
-# Prepare the output example (pandas DataFrame)
+# Prepare the output example
 output_example = forecast[['yhat']].head(1)
 output_schema = Schema(output_example)
 
@@ -198,7 +198,6 @@ api_key = os.environ.get('HOPSWORKS_API')
 
 # Log in to Hopsworks
 project = hopsworks.login(api_key_value=api_key)
-
 
 # Save the model artifacts to Hopsworks
 model_registry_entry.save(model_dir)
@@ -245,7 +244,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=7
+    version=8
 )
 
 # Setting up train & test split dates
