@@ -33,7 +33,7 @@ fs = connection.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=10
+    version=12
 )
 
 # %%
