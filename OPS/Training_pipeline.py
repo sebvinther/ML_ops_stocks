@@ -36,7 +36,7 @@ fs = project.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=21
+    version=22
 )
 
 print(feature_view)
@@ -248,7 +248,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=21
+    version=22
 )
 
 # Setting up train & test split dates
