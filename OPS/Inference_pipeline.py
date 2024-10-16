@@ -14,7 +14,7 @@ import os
 load_dotenv()
 
 # %%
-api_key = os.environ.get('hopsworks_api')
+api_key = os.environ.get('HOPSWORKS_API')
 project = hopsworks.login(api_key_value=api_key)
 fs = project.get_feature_store()
 mr = project.get_model_registry() 
@@ -78,7 +78,7 @@ print(predictions)
 predictions 
 
 # %%
-api_key = os.environ.get('hopsworks_api')
+api_key = os.environ.get('HOPSWORKS_API')
 project = hopsworks.login(api_key_value=api_key)
 fs = project.get_feature_store()
 
