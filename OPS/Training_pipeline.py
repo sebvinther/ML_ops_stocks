@@ -36,7 +36,7 @@ fs = project.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=22
+    version=23
 )
 
 print(feature_view)
@@ -145,8 +145,6 @@ else:
     plt.show()
 
 
-# Save the trained Prophet model to a file
-joblib.dump(model, 'prophet_model.pkl')
 
 # %%
 import joblib
@@ -195,6 +193,9 @@ model_registry_entry = mr.python.create_model(
     model_schema=model_schema,
     metrics=metrics
 )
+
+# Save the trained Prophet model to a file
+joblib.dump(model, 'prophet_model.pkl')
 
 # Ensure the model directory exists
 model_dir = 'prophet_model_dir'
@@ -248,7 +249,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=22
+    version=23
 )
 
 # Setting up train & test split dates
