@@ -36,7 +36,7 @@ fs = project.get_feature_store()
 #Getting the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=19
+    version=20
 )
 
 print(feature_view)
@@ -59,6 +59,9 @@ print(df.columns.tolist())
 
 # %%
 prophet_df = df[['date', 'f_1__open']].rename(columns={'date': 'ds', 'f_1__open': 'y'})
+
+print("Columns in Prophet_df:")
+print(prophet_df.columns.tolist())
 
 # %%
 import pandas as pd
@@ -141,6 +144,9 @@ else:
     plt.ylabel('Price')
     plt.show()
 
+# Save the trained Prophet model to a file
+joblib.dump(model, 'prophet_model.pkl')
+
 
 # %%
 import joblib
@@ -150,8 +156,6 @@ import shutil
 from hsml.schema import Schema
 from hsml.model_schema import ModelSchema
 
-# Save the trained Prophet model to a file
-joblib.dump(model, 'prophet_model.pkl')
 
 # Get your Hopsworks API key (ensure it's set in your environment variables)
 api_key = os.environ.get('HOPSWORKS_API')
@@ -244,7 +248,7 @@ fs = project.get_feature_store()
 # Retrieve the feature view
 feature_view = fs.get_feature_view(
     name='amd_stock_fv',
-    version=19
+    version=20
 )
 
 # Setting up train & test split dates
