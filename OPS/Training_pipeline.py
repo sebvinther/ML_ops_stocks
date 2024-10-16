@@ -145,6 +145,8 @@ else:
     plt.show()
 
 
+# Save the trained Prophet model to a file
+joblib.dump(model, 'prophet_model.pkl')
 
 # %%
 import joblib
