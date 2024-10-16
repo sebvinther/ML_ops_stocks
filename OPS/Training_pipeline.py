@@ -91,7 +91,14 @@ prophet_df['ds'] = prophet_df['ds'].dt.tz_localize(None)
 # Ensure the data is sorted by date
 prophet_df.sort_values('ds', inplace=True)
 
-
+# %%
+# Verify the data range in prophet_df
+if prophet_df['ds'].isnull().all():
+    print("Data range in prophet_df: NaT to NaT")
+else:
+    min_date = prophet_df['ds'].min()
+    max_date = prophet_df['ds'].max()
+    print("Data range in prophet_df:", min_date.date(), "to", max_date.date())
 
 # %%
 # Define train and test split dates as specified
