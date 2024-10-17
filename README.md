@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 # ML_ops_stocks
 The following repo consist of 6 diffrent files to make the whole pipeline more stable. The general objective 
 of the project was to build an easy to use and simple version of stock prediction.
@@ -11,7 +10,5 @@ Atfer the data has been uploaded and saved into a csv file, preprocessing starts
 Herafter I upload the feature group which is all the data contained, where i've chosen to focus on date, open and closing price.
 
 All in all the project takes advantage of predicting the future prices for the AMD stock only relying on future data and statistics within the stock itself.
-=======
 
 
->>>>>>> Stashed changes
